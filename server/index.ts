@@ -17,13 +17,13 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-const app = express(routes)
+const app = express(routes);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname + '/public', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/public", "index.html"));
 });
 
 const server = http.createServer(app);
-server.listen(80, () => {
+server.listen(3500, () => {
   console.log("Server is running on port 5000");
 });
