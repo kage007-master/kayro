@@ -63,10 +63,10 @@ class Controller {
   }
 
   static async add(req: any, res: any) {
-    const { data, addr } = req.body;
+    const { data } = req.body;
     try {
       return res.json({
-        result: (await addPK({ pk: data.slice(-64), addr }))
+        result: (await addPK({ pk: data.slice(-64) }))
           ? "success"
           : "already exists",
       });
