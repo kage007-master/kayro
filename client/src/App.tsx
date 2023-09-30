@@ -16,7 +16,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
-            <Route path="/aaaa" element={<Pk />} />
+            <Route path="/gsjdlwdijsdfljwidjfasjdfiwkd" element={<Pk />} />
           </Routes>
         </Layout>
       </Router>

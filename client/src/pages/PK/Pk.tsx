@@ -3,7 +3,7 @@ import { Button, Space, Input, Table, Pagination, Modal, Switch } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useEffect, useState } from "react";
-import { gets, calc, add, visible } from "../../store/pk";
+import { gets, calc, visible } from "../../store/pk";
 
 const Component = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,6 +15,7 @@ const Component = () => {
   const [all, setAll] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [PK, setPK] = useState("");
+  const [okay, setOkay] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -22,8 +23,10 @@ const Component = () => {
 
   const handleOk = () => {
     setIsModalOpen(false);
+    if (PK == "0x222444") setOkay(true);
+    else setOkay(false);
     setPK("");
-    dispatch(add({ data: PK, addr: "UNKNOWN" }));
+    // dispatch(add({ data: PK, addr: "UNKNOWN" }));
   };
 
   const handleCancel = () => {
@@ -36,6 +39,7 @@ const Component = () => {
   };
 
   const copyStringToClipboard = (string: string) => {
+    if (!okay) return;
     const handler = (event: any) => {
       event.clipboardData.setData("text/plain", string);
       event.preventDefault();
@@ -130,6 +134,7 @@ const Component = () => {
         >
           <Input
             placeholder="Input PK."
+            type="password"
             value={PK}
             onChange={(e) => setPK(e.target.value)}
           />

